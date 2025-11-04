@@ -3,53 +3,66 @@ import 'package:flutter/material.dart';
 class DarkAppColors {
   DarkAppColors._();
 
-  // Dark theme
-  static const backgroundDark = Color.fromRGBO(31, 31, 57, 100);
-  static const surfaceDark = Color.fromRGBO(47, 47, 66, 100);
+  static const backgroundCore = Color.fromRGBO(31, 31, 57, 1.0);
+  static const backgroundAdditional = Color.fromRGBO(47, 47, 66, 1.0);
 
-  static const textHeadlineDark = Color.fromRGBO(234, 234, 255, 100);
-  static const textMainDark = Color.fromRGBO(244, 243, 253, 100);
-  static const textSurfaceHeadlineDark = Color.fromRGBO(255, 255, 255, 100);
-  static const textSurfaceMainDark = Color.fromRGBO(184, 184, 210, 100);
+  static const textCoreHeadline = Color.fromRGBO(234, 234, 255, 1.0);
+  static const textCoreMain = Color.fromRGBO(244, 243, 253, 1.0);
+  static const textAdditionalHeadline = Color.fromRGBO(255, 255, 255, 1.0);
+  static const textAdditionalMain = Color.fromRGBO(184, 184, 210, 1.0);
 
-  // Light theme
-  static const backgroundLight = Color.fromRGBO(255, 255, 255, 100);
-  static const textHeadlineLight = Color.fromRGBO(31, 31, 57, 100);
+  static const textButton = Color.fromRGBO(244, 243, 253, 1.0);
 
-  // General
-  static const primary = Color.fromRGBO(61, 92, 255, 100);
-  static const secondary = Color.fromRGBO(133, 133, 151, 100);
+  static const primary = Color.fromRGBO(61, 92, 255, 1.0);
+  static const secondary = Color.fromRGBO(133, 133, 151, 1.0);
 }
 
 class DarkAppTheme {
   DarkAppTheme._();
 
-  // Dark theme
   static final ThemeData darkTheme = ThemeData(
     brightness: Brightness.dark,
     primaryColor: DarkAppColors.primary,
-    scaffoldBackgroundColor: DarkAppColors.backgroundDark,
-    cardColor: DarkAppColors.surfaceDark,
-
+    scaffoldBackgroundColor: DarkAppColors.backgroundCore,
+    cardColor: DarkAppColors.backgroundAdditional,
     fontFamily: 'Poppins',
+
+    colorScheme: const ColorScheme.dark(
+      primary: DarkAppColors.primary,
+      onPrimary: DarkAppColors.textButton,
+      surface: DarkAppColors.backgroundAdditional,
+      onSurface: DarkAppColors.textCoreMain,
+      secondary: DarkAppColors.secondary,
+      onSecondary: DarkAppColors.textButton,
+    ),
 
     textTheme: TextTheme(
       headlineLarge: TextStyle(
         fontSize: 22,
         fontWeight: FontWeight.bold,
-        color: DarkAppColors.textHeadlineDark,
+        color: DarkAppColors.textCoreHeadline,
       ),
       bodyMedium: TextStyle(
         fontSize: 16,
         fontWeight: FontWeight.normal,
-        color: DarkAppColors.textMainDark,
+        color: DarkAppColors.textCoreMain,
+      ),
+      titleLarge: TextStyle(
+        fontSize: 16,
+        fontWeight: FontWeight.normal,
+        color: DarkAppColors.textAdditionalHeadline,
+      ),
+      bodySmall: TextStyle(
+        fontSize: 12,
+        fontWeight: FontWeight.normal,
+        color: DarkAppColors.textAdditionalMain,
       ),
     ),
 
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         backgroundColor: DarkAppColors.primary,
-        foregroundColor: DarkAppColors.textMainDark,
+        foregroundColor: DarkAppColors.textButton,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       ),
     ),
@@ -57,18 +70,9 @@ class DarkAppTheme {
     outlinedButtonTheme: OutlinedButtonThemeData(
       style: OutlinedButton.styleFrom(
         backgroundColor: DarkAppColors.secondary,
-        foregroundColor: DarkAppColors.textMainDark,
+        foregroundColor: DarkAppColors.textButton,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       ),
     ),
   );
-
-  // static final ThemeData lightTheme = ThemeData(
-  //   fontFamily: 'Poppins',
-
-  //   scaffoldBackgroundColor: Colors.greenAccent,
-  //   colorScheme: ColorScheme.fromSeed(
-  //     seedColor: Colors.lightBlue,
-  //     brightness: Brightness.light,
-  //   ),
 }
