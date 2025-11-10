@@ -3,10 +3,9 @@ import 'package:flutter/material.dart';
 class LightAppColors {
   LightAppColors._();
 
-  static const background = Color.fromRGBO(255, 255, 255, 1.0);
-  static const onBackground = Color.fromRGBO(31, 31, 57, 1.0);
-
   static const surface = Color.fromRGBO(255, 255, 255, 1.0);
+  static const inverseSurface = Color.fromRGBO(133, 133, 151, 1.0);
+
   static const onSurface = Color.fromRGBO(31, 31, 57, 1.0);
   static const onSurfaceVariant = Color.fromRGBO(133, 133, 151, 1.0);
 
@@ -22,35 +21,28 @@ class LightAppTheme {
   static final ThemeData lightTheme = ThemeData(
     brightness: Brightness.light,
     primaryColor: LightAppColors.primary,
-    scaffoldBackgroundColor: LightAppColors.background,
+    scaffoldBackgroundColor: LightAppColors.surface,
     fontFamily: 'Poppins',
 
-    colorScheme: const ColorScheme.light(
+    colorScheme: ColorScheme.light(
       primary: LightAppColors.primary,
       onPrimary: LightAppColors.textButton,
-      secondary: LightAppColors.secondary,
-      onSecondary: LightAppColors.textButton,
-
-      inverseSurface: LightAppColors.background,
-      onInverseSurface: LightAppColors.onBackground,
-
       surface: LightAppColors.surface,
       onSurface: LightAppColors.onSurface,
       onSurfaceVariant: LightAppColors.onSurfaceVariant,
+      secondary: LightAppColors.secondary,
     ),
 
     textTheme: TextTheme(
       headlineLarge: TextStyle(
         fontSize: 22,
         fontWeight: FontWeight.bold,
-        height: 33 / 22,
-        color: LightAppColors.onBackground,
+        color: LightAppColors.onSurface,
       ),
       bodyMedium: TextStyle(
         fontSize: 16,
         fontWeight: FontWeight.normal,
-        color: LightAppColors.textButton,
-        height: 24 / 16,
+        color: LightAppColors.onSurfaceVariant,
       ),
       titleLarge: TextStyle(
         fontSize: 16,
@@ -58,7 +50,7 @@ class LightAppTheme {
         color: LightAppColors.onSurface,
       ),
       bodySmall: TextStyle(
-        fontSize: 14,
+        fontSize: 12,
         fontWeight: FontWeight.normal,
         color: LightAppColors.onSurfaceVariant,
       ),
@@ -66,7 +58,6 @@ class LightAppTheme {
 
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
-        textStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, height: 24 / 16),
         backgroundColor: LightAppColors.primary,
         foregroundColor: LightAppColors.textButton,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -75,11 +66,9 @@ class LightAppTheme {
 
     outlinedButtonTheme: OutlinedButtonThemeData(
       style: OutlinedButton.styleFrom(
-        textStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, height: 24 / 16),
-        backgroundColor: LightAppColors.textButton,
+        backgroundColor: LightAppColors.surface,
         foregroundColor: LightAppColors.primary,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        side: BorderSide(color: LightAppColors.primary, width: 1),
       ),
     ),
   );
