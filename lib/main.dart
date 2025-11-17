@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+
 import 'package:study_project/onboarding.dart';
 import 'package:study_project/theme/dark_theme.dart';
 import 'package:study_project/theme/light_theme.dart';
+
+import 'examples/_export.dart';
 
 void main() {
   runApp(const MyApp());
