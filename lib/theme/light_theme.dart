@@ -58,7 +58,7 @@ class LightAppTheme {
         color: LightAppColors.onSurface,
       ),
       bodySmall: TextStyle(
-        fontSize: 14,
+        fontSize: 16,
         fontWeight: FontWeight.normal,
         color: LightAppColors.onSurfaceVariant,
       ),
@@ -70,6 +70,7 @@ class LightAppTheme {
         backgroundColor: LightAppColors.primary,
         foregroundColor: LightAppColors.textButton,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        fixedSize: Size.fromHeight(50)
       ),
     ),
 
@@ -80,6 +81,7 @@ class LightAppTheme {
         foregroundColor: LightAppColors.primary,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         side: BorderSide(color: LightAppColors.primary, width: 1),
+        fixedSize: Size.fromHeight(50)
       ),
     ),
   );
