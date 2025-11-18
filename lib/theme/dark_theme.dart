@@ -58,7 +58,7 @@ class DarkAppTheme {
         color: DarkAppColors.onSurface,
       ),
       bodySmall: TextStyle(
-        fontSize: 14,
+        fontSize: 16,
         fontWeight: FontWeight.normal,
         color: DarkAppColors.onSurfaceVariant,
       ),
@@ -70,6 +70,7 @@ class DarkAppTheme {
         backgroundColor: DarkAppColors.primary,
         foregroundColor: DarkAppColors.textButton,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        fixedSize: Size.fromHeight(50)
       ),
     ),
 
@@ -80,6 +81,7 @@ class DarkAppTheme {
         foregroundColor: DarkAppColors.textButton,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         side: BorderSide(color: DarkAppColors.secondary, width: 1),
+        fixedSize: Size.fromHeight(50)
       ),
     ),
   );

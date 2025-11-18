@@ -45,7 +45,7 @@ class SkipButton extends StatelessWidget {
                   pageController.jumpToPage(pages - 1);
                 },
                 child: Padding(
-                  padding: const EdgeInsets.only(right: 24),
+                  padding: const EdgeInsets.only(right: 24, top: 24),
                   child: Text(
                     "Skip",
                     style: Theme.of(context).textTheme.bodySmall,
@@ -63,31 +63,25 @@ class AutorizationButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          spacing: 15,
-          children: [
-            const SizedBox(width: 20),
-            Expanded(
-              child: ElevatedButton(
-                onPressed: () {},
-                style: ElevatedButton.styleFrom(fixedSize: Size(160, 50)),
-                child: Text('Sign up'),
-              ),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+      child: Row(
+        children: [
+          Expanded(
+            child: ElevatedButton(
+              onPressed: () {},
+              child: Text('Sign up'),
             ),
-            Expanded(
-              child: OutlinedButton(
-                onPressed: () {},
-                style: ElevatedButton.styleFrom(fixedSize: Size(160, 50)),
-                child: Text('Log in'),
-              ),
+          ),
+          const SizedBox(width: 20,),
+          Expanded(
+            child: OutlinedButton(
+              onPressed: () {},
+              child: Text('Log in'),
             ),
-            const SizedBox(width: 20),
-          ],
-        ),
-      ],
+          ),
+        ],
+      ),
     );
   }
 }
@@ -99,25 +93,23 @@ class NextButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.end,
-      spacing: 15,
-      children: [
-        const SizedBox(width: 20),
-        Expanded(
-          child: ElevatedButton(
-            onPressed: () {
-              pageController.nextPage(
-                duration: Duration(milliseconds: 400),
-                curve: Curves.slowMiddle,
-              );
-            },
-            style: ElevatedButton.styleFrom(fixedSize: Size(160, 50)),
-            child: Text('Next step'),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+      child: Row(
+        children: [
+          Expanded(
+            child: ElevatedButton(
+              onPressed: () {
+                pageController.nextPage(
+                  duration: Duration(milliseconds: 400),
+                  curve: Curves.slowMiddle,
+                );
+              },
+              child: Text('Next step'),
+            ),
           ),
-        ),
-        const SizedBox(width: 20),
-      ],
+        ],
+      ),
     );
   }
 }

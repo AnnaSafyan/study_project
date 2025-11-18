@@ -10,7 +10,6 @@ class OnboardingScreen extends StatefulWidget {
 
 class _OnboardingScreenState extends State<OnboardingScreen> {
   late final PageController pageController;
-  int indexCount = 0;
 
   @override
   void initState() {
@@ -37,10 +36,16 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 bottom: 40,
                 left: 0,
                 right: 0,
-                child: ActionButtonField(pageController: pageController),
+                child: Column(
+                  children: [
+                    StepControl(),
+                    const SizedBox(height: 40,),
+                    ActionButtonField(pageController: pageController),
+                  ],
+                ),
               ),
+             
               SkipButton(pages: pages.length, pageController: pageController),
-              Positioned(bottom: 180, left: 0, right: 0, child: StepControl()),
             ],
           ),
         ),
@@ -88,8 +93,8 @@ class ScrollingContent extends StatelessWidget {
           style: Theme.of(context).textTheme.headlineLarge,
         ),
         const SizedBox(height: 18),
-        Text(pages.bodyLines[0], style: Theme.of(context).textTheme.bodyMedium),
-        Text(pages.bodyLines[1], style: Theme.of(context).textTheme.bodyMedium),
+        Text(pages.bodyLines[0], style: Theme.of(context).textTheme.bodySmall),
+        Text(pages.bodyLines[1], style: Theme.of(context).textTheme.bodySmall),
       ],
     );
   }
