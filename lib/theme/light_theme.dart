@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class LightAppColors {
   LightAppColors._();
@@ -41,24 +42,24 @@ class LightAppTheme {
 
     textTheme: TextTheme(
       headlineLarge: TextStyle(
-        fontSize: 22,
+        fontSize: 22.sp,
         fontWeight: FontWeight.bold,
         height: 33 / 22,
         color: LightAppColors.onBackground,
       ),
       bodyMedium: TextStyle(
-        fontSize: 16,
+        fontSize: 16.sp,
         fontWeight: FontWeight.normal,
         color: LightAppColors.textButton,
         height: 24 / 16,
       ),
       titleLarge: TextStyle(
-        fontSize: 16,
+        fontSize: 16.sp,
         fontWeight: FontWeight.normal,
         color: LightAppColors.onSurface,
       ),
       bodySmall: TextStyle(
-        fontSize: 16,
+        fontSize: 16.sp,
         fontWeight: FontWeight.normal,
         color: LightAppColors.onSurfaceVariant,
       ),
@@ -66,22 +67,22 @@ class LightAppTheme {
 
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
-        textStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, height: 24 / 16),
+        textStyle: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w500, height: 24 / 16),
         backgroundColor: LightAppColors.primary,
         foregroundColor: LightAppColors.textButton,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        fixedSize: Size.fromHeight(50)
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.r)),
+        fixedSize: Size.fromHeight(50.h)
       ),
     ),
 
     outlinedButtonTheme: OutlinedButtonThemeData(
       style: OutlinedButton.styleFrom(
-        textStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, height: 24 / 16),
+        textStyle: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w500, height: 24 / 16),
         backgroundColor: LightAppColors.textButton,
         foregroundColor: LightAppColors.primary,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        side: BorderSide(color: LightAppColors.primary, width: 1),
-        fixedSize: Size.fromHeight(50)
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.r)),
+        side: BorderSide(color: LightAppColors.primary, width: 1.w),
+        fixedSize: Size.fromHeight(50.h)
       ),
     ),
   );

@@ -1,19 +1,16 @@
-import 'package:flutter/material.dart';
-
-
 final List<OnboardingPageData> pages = const [
   OnboardingPageData(
-    imageAsset: 'assets/images/img_onboarding_smart_man.webp',
+    imageAsset: 'assets/images/onboarding_smart_man.svg',
     titleLines: ['Numerous free', 'trial courses'],
     bodyLines: ['Free courses for you to', 'find your way to learning'],
   ),
   OnboardingPageData(
-    imageAsset: 'assets/images/img_onboarding_mobile_man.webp',
+    imageAsset: 'assets/images/onboarding_mobile_man.svg',
     titleLines: ['Learn anywhere', 'anytime'],
     bodyLines: ['Mobile-first lessons', 'for busy schedules'],
   ),
   OnboardingPageData(
-    imageAsset: 'assets/images/img_onboarding_computer_man.webp',
+    imageAsset: 'assets/images/onboarding_computer_man.svg',
     titleLines: ['Track progress', 'and stay motivated'],
     bodyLines: ['Daily streaks and tips', 'to keep consistency'],
   ),

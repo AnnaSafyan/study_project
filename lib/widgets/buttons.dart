@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:study_project/onboarding/onboarding_notifier.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class StepControllButton extends StatelessWidget {
   final bool isActive;
@@ -11,10 +12,10 @@ class StepControllButton extends StatelessWidget {
       duration: Duration(milliseconds: 300),
       curve: isActive ? Curves.easeOut : Curves.easeIn,
       child: Container(
-        width: isActive ? 28 : 9,
-        height: 5,
+        width: isActive ? 28.w : 9.w,
+        height: 5.h,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(2.5),
+          borderRadius: BorderRadius.circular(2.5.r),
           color: isActive
               ? Theme.of(context).colorScheme.primary
               : Theme.of(context).colorScheme.secondary,
@@ -37,23 +38,23 @@ class SkipButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PageCounterProvider.of(context)?.pageCount != 2
-        ? Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              GestureDetector(
-                onTap: () {
-                  pageController.jumpToPage(pages - 1);
-                },
-                child: Padding(
-                  padding: const EdgeInsets.only(right: 24, top: 24),
+        ? Padding(
+          padding: EdgeInsets.only(right: 24.w, top: 20.h),
+          child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    pageController.jumpToPage(pages - 1);
+                  },
                   child: Text(
                     "Skip",
                     style: Theme.of(context).textTheme.bodySmall,
                   ),
                 ),
-              ),
-            ],
-          )
+              ],
+            ),
+        )
         : const SizedBox();
   }
 }
@@ -64,21 +65,15 @@ class AutorizationButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+      padding: EdgeInsets.symmetric(horizontal: 20.w),
       child: Row(
         children: [
           Expanded(
-            child: ElevatedButton(
-              onPressed: () {},
-              child: Text('Sign up'),
-            ),
+            child: ElevatedButton(onPressed: () {}, child: Text('Sign up')),
           ),
-          const SizedBox(width: 20,),
+          SizedBox(width: 20.w),
           Expanded(
-            child: OutlinedButton(
-              onPressed: () {},
-              child: Text('Log in'),
-            ),
+            child: OutlinedButton(onPressed: () {}, child: Text('Log in')),
           ),
         ],
       ),
@@ -94,7 +89,7 @@ class NextButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+      padding: EdgeInsets.symmetric(horizontal: 20.w),
       child: Row(
         children: [
           Expanded(

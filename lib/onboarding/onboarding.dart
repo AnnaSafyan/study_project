@@ -33,18 +33,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             children: [
               PageViewBuilder(pageController: pageController),
               Positioned(
-                bottom: 40,
-                left: 0,
-                right: 0,
-                child: Column(
-                  children: [
-                    StepControl(),
-                    const SizedBox(height: 40,),
-                    ActionButtonField(pageController: pageController),
-                  ],
-                ),
+                bottom: 40.h,
+                left: 0.w,
+                right: 0.w,
+                child: ActionButtonField(pageController: pageController),
               ),
-             
               SkipButton(pages: pages.length, pageController: pageController),
             ],
           ),
@@ -80,10 +73,10 @@ class ScrollingContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Image.asset(pages.imageAsset, width: 260, height: 260),
-        const SizedBox(height: 10),
+        SizedBox(height: 112.h),
+        SvgPicture.asset(pages.imageAsset, height: 260.h, width: 260.w),
+        SizedBox(height: 38.h),
         Text(
           pages.titleLines[0],
           style: Theme.of(context).textTheme.headlineLarge,
@@ -92,9 +85,35 @@ class ScrollingContent extends StatelessWidget {
           pages.titleLines[1],
           style: Theme.of(context).textTheme.headlineLarge,
         ),
-        const SizedBox(height: 18),
+        SizedBox(height: 18.h),
         Text(pages.bodyLines[0], style: Theme.of(context).textTheme.bodySmall),
         Text(pages.bodyLines[1], style: Theme.of(context).textTheme.bodySmall),
+        SizedBox(height: 26.h),
+        StepControl(),
+      ],
+    );
+  }
+}
+
+class StepControl extends StatelessWidget {
+  const StepControl({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        StepControllButton(
+          isActive: PageCounterProvider.of(context)?.pageCount == 0,
+        ),
+        SizedBox(width: 10.w),
+        StepControllButton(
+          isActive: PageCounterProvider.of(context)?.pageCount == 1,
+        ),
+        SizedBox(width: 10.w),
+        StepControllButton(
+          isActive: PageCounterProvider.of(context)?.pageCount == 2,
+        ),
       ],
     );
   }
@@ -115,29 +134,3 @@ class ActionButtonField extends StatelessWidget {
         : AutorizationButton();
   }
 }
-
-class StepControl extends StatelessWidget {
-  const StepControl({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        StepControllButton(
-          isActive: PageCounterProvider.of(context)?.pageCount == 0,
-        ),
-        const SizedBox(width: 10),
-        StepControllButton(
-          isActive: PageCounterProvider.of(context)?.pageCount == 1,
-        ),
-        const SizedBox(width: 10),
-        StepControllButton(
-          isActive: PageCounterProvider.of(context)?.pageCount == 2,
-        ),
-      ],
-    );
-  }
-}
-
-
