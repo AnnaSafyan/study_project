@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class DarkAppColors {
   DarkAppColors._();
@@ -41,47 +42,48 @@ class DarkAppTheme {
 
     textTheme: TextTheme(
       headlineLarge: TextStyle(
-        fontSize: 22,
+        fontSize: 22.sp,
         fontWeight: FontWeight.bold,
         height: 33 / 22,
         color: DarkAppColors.onBackground,
       ),
       bodyMedium: TextStyle(
-        fontSize: 16,
+        fontSize: 16.sp,
         fontWeight: FontWeight.normal,
         color: DarkAppColors.textButton,
         height: 24 / 16,
       ),
       titleLarge: TextStyle(
-        fontSize: 16,
+        fontSize: 16.sp,
         fontWeight: FontWeight.normal,
         color: DarkAppColors.onSurface,
       ),
       bodySmall: TextStyle(
-        fontSize: 16,
+        fontSize: 16.sp,
         fontWeight: FontWeight.normal,
         color: DarkAppColors.onSurfaceVariant,
+        height: 24 / 16,
       ),
     ),
 
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
-        textStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, height: 24 / 16),
+        textStyle: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w500, height: 24 / 16),
         backgroundColor: DarkAppColors.primary,
         foregroundColor: DarkAppColors.textButton,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        fixedSize: Size.fromHeight(50)
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.r)),
+        fixedSize: Size.fromHeight(50.h)
       ),
     ),
 
     outlinedButtonTheme: OutlinedButtonThemeData(
       style: OutlinedButton.styleFrom(
-        textStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, height: 24 / 16),
+        textStyle: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w500, height: 24 / 16),
         backgroundColor: DarkAppColors.secondary,
         foregroundColor: DarkAppColors.textButton,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        side: BorderSide(color: DarkAppColors.secondary, width: 1),
-        fixedSize: Size.fromHeight(50)
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.r)),
+        side: BorderSide(color: DarkAppColors.secondary, width: 1.w),
+        fixedSize: Size.fromHeight(50.h)
       ),
     ),
   );

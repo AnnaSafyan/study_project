@@ -11,6 +11,8 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_bloc: ^9.1.1
+  flutter_svg: ^2.2.2
+  flutter_screenutil: ^5.9.0
 
   cupertino_icons: ^1.0.8
 
@@ -25,10 +27,8 @@ flutter:
   uses-material-design: true
 
   assets:
-    - assets/images/img_onboarding_computer_man.webp
-    - assets/images/img_onboarding_mobile_man.webp
-    - assets/images/img_onboarding_smart_man.webp
-    - assets/icons/succes_icon.svg
+    - assets/images/
+    - assets/icons/
 
   fonts:
     - family: Poppins
