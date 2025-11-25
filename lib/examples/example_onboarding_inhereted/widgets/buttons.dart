@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:study_project/examples/example_onboarding_inhereted/onboarding/onboarding_notifier.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class StepControllButton extends StatelessWidget {
@@ -26,19 +27,17 @@ class StepControllButton extends StatelessWidget {
 
 class SkipButton extends StatelessWidget {
   final int pages;
-  final int pageIndex;
   final PageController pageController;
 
   const SkipButton({
     super.key,
     required this.pages,
-    required this.pageIndex,
     required this.pageController,
   });
 
   @override
   Widget build(BuildContext context) {
-    return pageIndex != 2
+    return PageCounterProvider.of(context)?.pageCount != 2
         ? Padding(
           padding: EdgeInsets.only(right: 24.w, top: 20.h),
           child: Row(

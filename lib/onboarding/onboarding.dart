@@ -10,16 +10,35 @@ class OnboardingScreen extends StatefulWidget {
 
 class _OnboardingScreenState extends State<OnboardingScreen> {
   late final PageController pageController;
+  late final StreamController<int> streamController;
+  int pageCount = 0;
 
   @override
   void initState() {
     pageController = PageController();
+    streamController = StreamController.broadcast();
     super.initState();
+    streamController.add(pageCount);
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      streamController.stream.listen((event) {
+        if (!mounted) return;
+        if (event != pages.length - 1) return;
+        showDialog(
+          context: context,
+          builder: (_) => AlertDialog(
+            title: Text('Это последняя страница'),
+            actions: [TextButton(onPressed: () => { Navigator.of(context).pop()}, child: Text("Закрыть"))],
+          ),
+        );
+      });
+    });
   }
 
   @override
   void dispose() {
     pageController.dispose();
+    streamController.close();
     super.dispose();
   }
 
@@ -27,20 +46,34 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: PageCounterProvider(
-          model: model,
-          child: Stack(
-            children: [
-              PageViewBuilder(pageController: pageController),
-              Positioned(
-                bottom: 40.h,
-                left: 0.w,
-                right: 0.w,
-                child: ActionButtonField(pageController: pageController),
-              ),
-              SkipButton(pages: pages.length, pageController: pageController),
-            ],
-          ),
+        child: StreamBuilder(
+          stream: streamController.stream,
+          initialData: pageCount,
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            return Stack(
+              children: [
+                PageViewBuilder(
+                  pageController: pageController,
+                  streamController: streamController,
+                  pageIndex: snapshot.data,
+                ),
+                Positioned(
+                  bottom: 40.h,
+                  left: 0.w,
+                  right: 0.w,
+                  child: ActionButtonField(
+                    pageController: pageController,
+                    pageIndex: snapshot.data,
+                  ),
+                ),
+                SkipButton(
+                  pages: pages.length,
+                  pageController: pageController,
+                  pageIndex: snapshot.data,
+                ),
+              ],
+            );
+          },
         ),
       ),
     );
@@ -49,7 +82,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
 class PageViewBuilder extends StatelessWidget {
   final PageController pageController;
-  const PageViewBuilder({super.key, required this.pageController});
+  final StreamController streamController;
+  final int pageIndex;
+  const PageViewBuilder({
+    super.key,
+    required this.pageController,
+    required this.streamController,
+    required this.pageIndex,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -57,10 +97,10 @@ class PageViewBuilder extends StatelessWidget {
       controller: pageController,
       itemCount: pages.length,
       itemBuilder: (context, index) {
-        return ScrollingContent(pages: pages[index]);
+        return ScrollingContent(pages: pages[index], pageIndex: pageIndex);
       },
       onPageChanged: (index) {
-        PageCounterProvider.of(context)?.changePageCount(index);
+        streamController.add(index);
       },
     );
   }
@@ -68,7 +108,12 @@ class PageViewBuilder extends StatelessWidget {
 
 class ScrollingContent extends StatelessWidget {
   final OnboardingPageData pages;
-  const ScrollingContent({super.key, required this.pages});
+  final int pageIndex;
+  const ScrollingContent({
+    super.key,
+    required this.pages,
+    required this.pageIndex,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -89,47 +134,47 @@ class ScrollingContent extends StatelessWidget {
         Text(pages.bodyLines[0], style: Theme.of(context).textTheme.bodySmall),
         Text(pages.bodyLines[1], style: Theme.of(context).textTheme.bodySmall),
         SizedBox(height: 26.h),
-        StepControl(),
+        StepControl(pageIndex: pageIndex),
       ],
     );
   }
 }
 
 class StepControl extends StatelessWidget {
-  const StepControl({super.key});
+  final int pageIndex;
+  const StepControl({super.key, required this.pageIndex});
 
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        StepControllButton(
-          isActive: PageCounterProvider.of(context)?.pageCount == 0,
-        ),
+        StepControllButton(isActive: pageIndex == 0),
         SizedBox(width: 10.w),
-        StepControllButton(
-          isActive: PageCounterProvider.of(context)?.pageCount == 1,
-        ),
+        StepControllButton(isActive: pageIndex == 1),
         SizedBox(width: 10.w),
-        StepControllButton(
-          isActive: PageCounterProvider.of(context)?.pageCount == 2,
-        ),
+        StepControllButton(isActive: pageIndex == 2),
       ],
     );
   }
 }
 
 class ActionButtonField extends StatelessWidget {
+  final int pageIndex;
   final PageController pageController;
 
-  const ActionButtonField({required this.pageController, super.key});
+  const ActionButtonField({
+    required this.pageController,
+    required this.pageIndex,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
-    final pageCountInherite = PageCounterProvider.of(context)?.pageCount;
-    if (pageCountInherite == null) return const SizedBox.expand();
+    final pageCount = pageIndex;
+    // if (pageCount == null) return const SizedBox.expand();
 
-    return pageCountInherite != pages.length - 1
+    return pageCount != pages.length - 1
         ? NextButton(pageController: pageController)
         : AutorizationButton();
   }
