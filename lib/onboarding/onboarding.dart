@@ -10,15 +10,29 @@ class OnboardingScreen extends StatefulWidget {
 
 class _OnboardingScreenState extends State<OnboardingScreen> {
   late final PageController pageController;
-  late final StreamController streamController;
+  late final StreamController<int> streamController;
   int pageCount = 0;
 
   @override
   void initState() {
     pageController = PageController();
-    streamController = StreamController();
+    streamController = StreamController.broadcast();
     super.initState();
     streamController.add(pageCount);
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      streamController.stream.listen((event) {
+        if (!mounted) return;
+        if (event != pages.length - 1) return;
+        showDialog(
+          context: context,
+          builder: (_) => AlertDialog(
+            title: Text('Это последняя страница'),
+            actions: [TextButton(onPressed: () => { Navigator.of(context).pop()}, child: Text("Закрыть"))],
+          ),
+        );
+      });
+    });
   }
 
   @override
@@ -36,19 +50,30 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           stream: streamController.stream,
           initialData: pageCount,
           builder: (BuildContext context, AsyncSnapshot snapshot) {
-          return Stack(
-            children: [
-              PageViewBuilder(pageController: pageController, streamController: streamController, pageIndex: snapshot.data),
-              Positioned(
-                bottom: 40.h,
-                left: 0.w,
-                right: 0.w,
-                child: ActionButtonField(pageController: pageController, pageIndex: snapshot.data),
-              ),
-              SkipButton(pages: pages.length, pageController: pageController, pageIndex: snapshot.data),
-            ],
-          );
-        }
+            return Stack(
+              children: [
+                PageViewBuilder(
+                  pageController: pageController,
+                  streamController: streamController,
+                  pageIndex: snapshot.data,
+                ),
+                Positioned(
+                  bottom: 40.h,
+                  left: 0.w,
+                  right: 0.w,
+                  child: ActionButtonField(
+                    pageController: pageController,
+                    pageIndex: snapshot.data,
+                  ),
+                ),
+                SkipButton(
+                  pages: pages.length,
+                  pageController: pageController,
+                  pageIndex: snapshot.data,
+                ),
+              ],
+            );
+          },
         ),
       ),
     );
@@ -59,7 +84,12 @@ class PageViewBuilder extends StatelessWidget {
   final PageController pageController;
   final StreamController streamController;
   final int pageIndex;
-  const PageViewBuilder({super.key, required this.pageController, required this.streamController, required this.pageIndex});
+  const PageViewBuilder({
+    super.key,
+    required this.pageController,
+    required this.streamController,
+    required this.pageIndex,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -76,11 +106,14 @@ class PageViewBuilder extends StatelessWidget {
   }
 }
 
-
 class ScrollingContent extends StatelessWidget {
   final OnboardingPageData pages;
   final int pageIndex;
-  const ScrollingContent({super.key, required this.pages, required this.pageIndex});
+  const ScrollingContent({
+    super.key,
+    required this.pages,
+    required this.pageIndex,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -110,24 +143,17 @@ class ScrollingContent extends StatelessWidget {
 class StepControl extends StatelessWidget {
   final int pageIndex;
   const StepControl({super.key, required this.pageIndex});
-  
 
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        StepControllButton(
-          isActive: pageIndex == 0,
-        ),
+        StepControllButton(isActive: pageIndex == 0),
         SizedBox(width: 10.w),
-        StepControllButton(
-          isActive: pageIndex == 1,
-        ),
+        StepControllButton(isActive: pageIndex == 1),
         SizedBox(width: 10.w),
-        StepControllButton(
-          isActive: pageIndex == 2,
-        ),
+        StepControllButton(isActive: pageIndex == 2),
       ],
     );
   }
@@ -137,7 +163,11 @@ class ActionButtonField extends StatelessWidget {
   final int pageIndex;
   final PageController pageController;
 
-  const ActionButtonField({required this.pageController, required this.pageIndex, super.key});
+  const ActionButtonField({
+    required this.pageController,
+    required this.pageIndex,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
