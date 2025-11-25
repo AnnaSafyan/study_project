@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:study_project/onboarding/_export.dart';
+import 'package:study_project/examples/example_onboarding_inhereted/onboarding/_export.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -10,21 +10,16 @@ class OnboardingScreen extends StatefulWidget {
 
 class _OnboardingScreenState extends State<OnboardingScreen> {
   late final PageController pageController;
-  late final StreamController streamController;
-  int pageCount = 0;
 
   @override
   void initState() {
     pageController = PageController();
-    streamController = StreamController();
     super.initState();
-    streamController.add(pageCount);
   }
 
   @override
   void dispose() {
     pageController.dispose();
-    streamController.close();
     super.dispose();
   }
 
@@ -32,23 +27,20 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: StreamBuilder(
-          stream: streamController.stream,
-          initialData: pageCount,
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-          return Stack(
+        child: PageCounterProvider(
+          model: model,
+          child: Stack(
             children: [
-              PageViewBuilder(pageController: pageController, streamController: streamController, pageIndex: snapshot.data),
+              PageViewBuilder(pageController: pageController),
               Positioned(
                 bottom: 40.h,
                 left: 0.w,
                 right: 0.w,
-                child: ActionButtonField(pageController: pageController, pageIndex: snapshot.data),
+                child: ActionButtonField(pageController: pageController),
               ),
-              SkipButton(pages: pages.length, pageController: pageController, pageIndex: snapshot.data),
+              SkipButton(pages: pages.length, pageController: pageController),
             ],
-          );
-        }
+          ),
         ),
       ),
     );
@@ -57,9 +49,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
 class PageViewBuilder extends StatelessWidget {
   final PageController pageController;
-  final StreamController streamController;
-  final int pageIndex;
-  const PageViewBuilder({super.key, required this.pageController, required this.streamController, required this.pageIndex});
+  const PageViewBuilder({super.key, required this.pageController});
 
   @override
   Widget build(BuildContext context) {
@@ -67,20 +57,18 @@ class PageViewBuilder extends StatelessWidget {
       controller: pageController,
       itemCount: pages.length,
       itemBuilder: (context, index) {
-        return ScrollingContent(pages: pages[index], pageIndex: pageIndex);
+        return ScrollingContent(pages: pages[index]);
       },
       onPageChanged: (index) {
-        streamController.add(index);
+        PageCounterProvider.of(context)?.changePageCount(index);
       },
     );
   }
 }
 
-
 class ScrollingContent extends StatelessWidget {
   final OnboardingPageData pages;
-  final int pageIndex;
-  const ScrollingContent({super.key, required this.pages, required this.pageIndex});
+  const ScrollingContent({super.key, required this.pages});
 
   @override
   Widget build(BuildContext context) {
@@ -101,16 +89,14 @@ class ScrollingContent extends StatelessWidget {
         Text(pages.bodyLines[0], style: Theme.of(context).textTheme.bodySmall),
         Text(pages.bodyLines[1], style: Theme.of(context).textTheme.bodySmall),
         SizedBox(height: 26.h),
-        StepControl(pageIndex: pageIndex),
+        StepControl(),
       ],
     );
   }
 }
 
 class StepControl extends StatelessWidget {
-  final int pageIndex;
-  const StepControl({super.key, required this.pageIndex});
-  
+  const StepControl({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -118,15 +104,15 @@ class StepControl extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         StepControllButton(
-          isActive: pageIndex == 0,
+          isActive: PageCounterProvider.of(context)?.pageCount == 0,
         ),
         SizedBox(width: 10.w),
         StepControllButton(
-          isActive: pageIndex == 1,
+          isActive: PageCounterProvider.of(context)?.pageCount == 1,
         ),
         SizedBox(width: 10.w),
         StepControllButton(
-          isActive: pageIndex == 2,
+          isActive: PageCounterProvider.of(context)?.pageCount == 2,
         ),
       ],
     );
@@ -134,17 +120,16 @@ class StepControl extends StatelessWidget {
 }
 
 class ActionButtonField extends StatelessWidget {
-  final int pageIndex;
   final PageController pageController;
 
-  const ActionButtonField({required this.pageController, required this.pageIndex, super.key});
+  const ActionButtonField({required this.pageController, super.key});
 
   @override
   Widget build(BuildContext context) {
-    final pageCount = pageIndex;
-    // if (pageCount == null) return const SizedBox.expand();
+    final pageCountInherite = PageCounterProvider.of(context)?.pageCount;
+    if (pageCountInherite == null) return const SizedBox.expand();
 
-    return pageCount != pages.length - 1
+    return pageCountInherite != pages.length - 1
         ? NextButton(pageController: pageController)
         : AutorizationButton();
   }
