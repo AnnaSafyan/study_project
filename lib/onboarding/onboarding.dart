@@ -10,35 +10,18 @@ class OnboardingScreen extends StatefulWidget {
 
 class _OnboardingScreenState extends State<OnboardingScreen> {
   late final PageController pageController;
-  late final StreamController<int> streamController;
-  int pageCount = 0;
+  final OnboardingBloc _bloc = OnboardingBloc();
 
   @override
   void initState() {
     pageController = PageController();
-    streamController = StreamController.broadcast();
     super.initState();
-    streamController.add(pageCount);
-
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      streamController.stream.listen((event) {
-        if (!mounted) return;
-        if (event != pages.length - 1) return;
-        showDialog(
-          context: context,
-          builder: (_) => AlertDialog(
-            title: Text('Это последняя страница'),
-            actions: [TextButton(onPressed: () => { Navigator.of(context).pop()}, child: Text("Закрыть"))],
-          ),
-        );
-      });
-    });
   }
 
   @override
   void dispose() {
     pageController.dispose();
-    streamController.close();
+    _bloc.dispose();
     super.dispose();
   }
 
@@ -46,16 +29,16 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: StreamBuilder(
-          stream: streamController.stream,
-          initialData: pageCount,
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
+        child: StreamBuilder<OnboardingState>(
+          stream: _bloc.stream,
+          initialData: _bloc.state,
+          builder: (_, __) {
             return Stack(
               children: [
                 PageViewBuilder(
+                  onboardingBloc: _bloc,
                   pageController: pageController,
-                  streamController: streamController,
-                  pageIndex: snapshot.data,
+                  pageIndex: _bloc.state.pageIndex,
                 ),
                 Positioned(
                   bottom: 40.h,
@@ -63,13 +46,13 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   right: 0.w,
                   child: ActionButtonField(
                     pageController: pageController,
-                    pageIndex: snapshot.data,
+                    pageIndex: _bloc.state.pageIndex,
                   ),
                 ),
                 SkipButton(
                   pages: pages.length,
                   pageController: pageController,
-                  pageIndex: snapshot.data,
+                  pageIndex: _bloc.state.pageIndex,
                 ),
               ],
             );
@@ -82,13 +65,13 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
 class PageViewBuilder extends StatelessWidget {
   final PageController pageController;
-  final StreamController streamController;
+  final OnboardingBloc onboardingBloc;
   final int pageIndex;
   const PageViewBuilder({
     super.key,
     required this.pageController,
-    required this.streamController,
     required this.pageIndex,
+    required this.onboardingBloc,
   });
 
   @override
@@ -100,7 +83,7 @@ class PageViewBuilder extends StatelessWidget {
         return ScrollingContent(pages: pages[index], pageIndex: pageIndex);
       },
       onPageChanged: (index) {
-        streamController.add(index);
+        onboardingBloc.add(OnIndexChanged(index));
       },
     );
   }
@@ -172,7 +155,6 @@ class ActionButtonField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final pageCount = pageIndex;
-    // if (pageCount == null) return const SizedBox.expand();
 
     return pageCount != pages.length - 1
         ? NextButton(pageController: pageController)
